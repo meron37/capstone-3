@@ -75,7 +75,7 @@ public class CategoriesController
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateCategory(@PathVariable int id, @RequestBody Category category)
     {
-        /// update the category by id
+        // update the category by id
         category.setCategoryId(id);
         categoryDao.update(id, category);
     }
