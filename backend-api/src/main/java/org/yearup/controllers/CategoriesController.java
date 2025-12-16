@@ -69,7 +69,7 @@ public class CategoriesController
     }
 
     // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
-    /// add annotation to ensure that only an ADMIN can call this function
+    // add annotation to ensure that only an ADMIN can call this function
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
