@@ -40,7 +40,7 @@ public class CategoriesController
         return categoryDao.getAllCategories();
     }
 
-    // add the appropriate annotation for a get action
+    /// add the appropriate annotation for a get action
     @GetMapping("/{id}")
     public Category getById(@PathVariable int id)
     {
