@@ -57,7 +57,7 @@ public class CategoriesController
         return productDao.listByCategoryId(categoryId);
     }
 
-    // add annotation to call this method for a POST action
+    /// add annotation to call this method for a POST action
     // add annotation to ensure that only an ADMIN can call this function
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
