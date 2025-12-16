@@ -72,7 +72,7 @@ public class MySqlCategoryDao extends MySqlDaoBase implements CategoryDao
     @Override
     public Category create(Category category)
     {
-        // create a new category
+        /// create a new category
         String sql = "INSERT INTO categories (name, description) VALUES (?, ?);";
 
         try (Connection connection = getConnection();
