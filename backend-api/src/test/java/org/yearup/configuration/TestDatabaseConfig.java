@@ -69,7 +69,7 @@ public class TestDatabaseConfig
     }
 
 
-    @Bean
+  @Bean
     public DataSource dataSource() throws SQLException, IOException
     {
         SingleConnectionDataSource dataSource = new SingleConnectionDataSource();
