@@ -5,18 +5,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.yearup.models.Product;
 import org.yearup.data.ProductDao;
+import org.yearup.models.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("products")
+@RequestMapping("/products")
 @CrossOrigin
 public class ProductsController
 {
-    private ProductDao productDao;
+    private final ProductDao productDao;
 
     @Autowired
     public ProductsController(ProductDao productDao)
@@ -24,13 +24,14 @@ public class ProductsController
         this.productDao = productDao;
     }
 
-    @GetMapping("")
+    @GetMapping
     @PreAuthorize("permitAll()")
-    public List<Product> search(@RequestParam(name="cat", required = false) Integer categoryId,
-                                @RequestParam(name="minPrice", required = false) BigDecimal minPrice,
-                                @RequestParam(name="maxPrice", required = false) BigDecimal maxPrice,
-                                @RequestParam(name="subCategory", required = false) String subCategory
-                                )
+    public List<Product> search(
+            @RequestParam(name="cat", required = false) Integer categoryId,
+            @RequestParam(name="minPrice", required = false) BigDecimal minPrice,
+            @RequestParam(name="maxPrice", required = false) BigDecimal maxPrice,
+            @RequestParam(name="subCategory", required = false) String subCategory
+    )
     {
         try
         {
@@ -42,18 +43,22 @@ public class ProductsController
         }
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public Product getById(@PathVariable int id )
+    public Product getById(@PathVariable int id)
     {
         try
         {
-            var product = productDao.getById(id);
+            Product product = productDao.getById(id);
 
             if(product == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
             return product;
+        }
+        catch(ResponseStatusException ex)
+        {
+            throw ex;
         }
         catch(Exception ex)
         {
@@ -61,8 +66,9 @@ public class ProductsController
         }
     }
 
-    @PostMapping()
+    @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
     public Product addProduct(@RequestBody Product product)
     {
         try
@@ -75,13 +81,23 @@ public class ProductsController
         }
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateProduct(@PathVariable int id, @RequestBody Product product)
     {
         try
         {
-            productDao.create(product);
+            Product existing = productDao.getById(id);
+
+            if(existing == null)
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+            productDao.update(id, product);
+        }
+        catch(ResponseStatusException ex)
+        {
+            throw ex;
         }
         catch(Exception ex)
         {
@@ -89,18 +105,23 @@ public class ProductsController
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable int id)
     {
         try
         {
-            var product = productDao.getById(id);
+            Product existing = productDao.getById(id);
 
-            if(product == null)
+            if(existing == null)
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 
             productDao.delete(id);
+        }
+        catch(ResponseStatusException ex)
+        {
+            throw ex;
         }
         catch(Exception ex)
         {
