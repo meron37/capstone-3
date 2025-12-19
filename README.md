@@ -58,11 +58,13 @@ DAOs, and transactional order processing, along with frontend integration .
 - Connected category selection to dynamically filter products
 - Ensured the UI updates immediately when a category is changed
 
+![img_2.png](img_2.png)
 # Profile
 - Built and updated the Profile page
 - Displayed user information retrieved from the backend (or mock service)
 - Structured the profile UI to support future updates/editing
 
+![img_3.png](img_3.png)
 # Add to Cart
 - implemented Add to Cart functionality
 - Prevented duplicate products from being added to the cart
@@ -78,7 +80,7 @@ DAOs, and transactional order processing, along with frontend integration .
   add product to cart
   }
 ```
-
+![img_4.png](img_4.png)
 # Product
 
 - Fixed update logic to prevent duplicate product creation
